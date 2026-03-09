@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts: Doto for that Nothing(R) look, Space Mono for body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#050505] text-[#e0e0e0] font-mono min-h-screen flex flex-col selection:bg-[#ff4d00] selection:text-black">
+    
+    <!-- Top Bar / Grid Line -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-[#ff4d00] z-50"></div>
+    
+    <!-- Navigation -->
+    <header class="w-full border-b border-[#333] sticky top-0 bg-[#050505]/90 backdrop-blur-sm z-40">
+      <div class="max-w-6xl mx-auto px-4 md:px-8 h-16 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold tracking-tighter uppercase font-dot flex items-center gap-2">
+          <span class="w-3 h-3 bg-[#ff4d00]"></span>
+          chiamamial//note
+        </a>
+        <nav class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
+          <a href="/" class="hover:text-[#ff4d00] transition-colors">[ Home ]</a>
+          <a href="https://chiamamial.com" target="_blank" rel="noopener noreferrer" class="hover:text-[#ff4d00] transition-colors">[ About ]</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-6xl mx-auto px-4 md:px-8 py-12 relative">
+      <!-- Background Grid Lines (Decorative) -->
+      <div class="absolute inset-0 pointer-events-none border-l border-r border-[#1a1a1a] mx-4 md:mx-8"></div>
+      
+      <div class="relative z-10">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="w-full border-t border-[#333] mt-20 bg-[#0a0a0a]">
+      <div class="max-w-6xl mx-auto px-4 py-12 md:flex justify-between items-end">
+        <div>
+          <h4 class="font-dot text-2xl uppercase mb-4">chiamamial<span class="text-[#ff4d00]">//</span>note</h4>
+          <p class="text-xs text-gray-500 max-w-xs font-mono">
+            // PROTOCOLLO DI DESIGN INDUSTRIALE<br>
+            // VERSIONE 1.0.0<br>
+            // EST. 2026
+          </p>
+        </div>
+        <div class="mt-8 md:mt-0 text-xs text-gray-600 uppercase">
+          &copy; {new Date().getFullYear()} / Tutti i diritti riservati
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>
+
+<style is:global>
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050505; 
+    border-left: 1px solid #333;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333; 
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ff4d00; 
+  }
+  
+  /* Font Families Utility */
+  .font-dot {
+    font-family: 'Doto', sans-serif;
+    font-variation-settings: 'ROND' 0; /* 0 = Square dots (like Nothing), 100 = Round dots */
+    font-weight: 500; /* Medium weight for clarity */
+  }
+  .font-mono {
+    font-family: 'Space Mono', monospace;
+  }
+</style>

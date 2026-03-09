@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+---
+
+<Layout title="chiamamial//note - Feed Industriale">
+
+  <!-- Hero Section -->
+  <section class="mb-24 relative border-b border-[#333] pb-12">
+    <div class="absolute top-0 right-0 text-[#333] text-9xl font-dot font-bold opacity-10 pointer-events-none select-none -z-10">
+      001
+    </div>
+    
+    <div class="inline-block border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-xs font-bold uppercase mb-6 tracking-widest font-dot">
+      Diario di Bordo: Attivo
+    </div>
+
+    <h1 class="text-5xl md:text-8xl font-dot font-bold uppercase leading-none mb-6 text-white tracking-wide">
+      Appunti <br/>
+      <span class="text-transparent stroke-text hover:text-[#ff4d00] transition-colors duration-500">Digitali</span> <br/>
+      & Tech
+    </h1>
+    
+    <p class="text-gray-400 max-w-xl text-sm md:text-base leading-relaxed border-l-2 border-[#ff4d00] pl-6 py-2 mb-8 font-mono">
+      // Non sono un giornalista. Non sono un guru.
+      <br class="hidden md:block"/>
+      // Questo è solo il mio spazio personale dove raccolgo ciò che mi colpisce: tecnologia, innovazione e cultura digitale.
+    </p>
+  </section>
+
+  <!-- Content Grid -->
+  <section>
+    <div class="flex items-end justify-between mb-12 border-b border-[#333] pb-4">
+      <h2 class="text-3xl font-dot uppercase text-white tracking-widest">
+        <span class="text-[#ff4d00] mr-2">/</span> Log_Trasmissioni
+      </h2>
+      <a href="/archive" class="text-xs font-mono text-gray-500 hover:text-[#ff4d00] uppercase tracking-widest">
+        [ Vedi_Tutti_i_Dati ]
+      </a>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map(post => (
+        <article class="group relative bg-[#0a0a0a] border border-[#333] hover:border-[#ff4d00] transition-colors duration-300">
+          <a href={`/posts/${post.slug}`} class="block h-full p-6 flex flex-col h-full">
+            <div class="flex justify-between items-start mb-6 text-xs font-mono text-gray-500 uppercase">
+              <span class="border border-[#333] px-2 py-1 group-hover:border-[#ff4d00] group-hover:text-[#ff4d00] transition-colors font-dot">
+                {post.data.tags[0] || 'NULL'}
+              </span>
+              <span>{post.data.pubDate.toLocaleDateString('it-IT')}</span>
+            </div>
+            
+            <h3 class="text-2xl font-dot font-bold text-white mb-4 group-hover:text-[#ff4d00] transition-colors uppercase leading-tight tracking-wide">
+              {post.data.title}
+            </h3>
+            
+            <p class="text-gray-500 text-sm font-mono mb-8 flex-grow leading-relaxed">
+              {post.data.description}
+            </p>
+
+            <div class="text-[#ff4d00] text-xs font-bold uppercase tracking-widest flex items-center gap-2 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-dot">
+              Leggi_File <span>-></span>
+            </div>
+            
+            <!-- Corner Decorations -->
+            <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-[#333] group-hover:border-[#ff4d00] transition-colors"></div>
+            <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[#333] group-hover:border-[#ff4d00] transition-colors"></div>
+          </a>
+        </article>
+      ))}
+      
+      <!-- Placeholder Card -->
+      <article class="group relative bg-[#0a0a0a] border border-[#333] opacity-40 hover:opacity-100 transition-opacity duration-300 min-h-[300px] flex items-center justify-center">
+        <div class="text-center">
+          <div class="text-4xl text-[#333] mb-2 font-dot font-bold">404</div>
+          <div class="text-xs font-mono text-gray-600 uppercase">Dati_Corrotti</div>
+        </div>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .stroke-text {
+    -webkit-text-stroke: 1px #fff;
+  }
+  .stroke-text:hover {
+    -webkit-text-stroke: 1px #ff4d00;
+  }
+</style>

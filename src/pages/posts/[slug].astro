@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title}>
+  <article class="max-w-4xl mx-auto border-l border-r border-[#333] min-h-screen bg-[#0a0a0a] relative">
+    
+    <!-- Top Metadata Bar -->
+    <div class="border-b border-[#333] p-4 flex justify-between items-center text-xs font-mono uppercase text-gray-500 bg-[#050505]">
+      <div class="flex gap-4">
+        <span>ID: {post.slug.substring(0, 8)}</span>
+        <span>Data: {post.data.pubDate.toLocaleDateString('it-IT')}</span>
+      </div>
+      <a href="/" class="hover:text-[#ff4d00] transition-colors">[ Ritorna_Home ]</a>
+    </div>
+
+    <!-- Header -->
+    <header class="p-8 md:p-12 border-b border-[#333]">
+      <div class="flex flex-wrap gap-2 mb-6">
+        {post.data.tags.map(tag => (
+          <span class="border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-xs font-bold uppercase tracking-wider font-dot">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h1 class="text-4xl md:text-6xl font-dot font-bold text-white uppercase leading-tight tracking-wide mb-8">
+        {post.data.title}
+      </h1>
+      <p class="text-xl text-gray-400 font-mono leading-relaxed max-w-2xl border-l-2 border-[#ff4d00] pl-6">
+        {post.data.description}
+      </p>
+    </header>
+
+    <!-- Content Body -->
+    <div class="p-8 md:p-12 prose prose-invert prose-lg max-w-none font-mono text-gray-300">
+      <Content />
+    </div>
+
+    <!-- Footer Meta -->
+    <div class="p-8 border-t border-[#333] bg-[#050505] text-center">
+      <p class="text-xs font-mono text-gray-500 uppercase mb-4">
+        // Fine Trasmissione
+      </p>
+      <a href="/" class="inline-block border border-[#333] hover:border-[#ff4d00] text-gray-400 hover:text-[#ff4d00] px-8 py-3 font-bold uppercase tracking-wider transition-colors font-dot">
+        Torna all'Archivio
+      </a>
+    </div>
+
+  </article>
+</Layout>
+
+<style is:global>
+  /* Custom Prose Styles for Markdown Content */
+  .prose h1, .prose h2, .prose h3 {
+    font-family: 'Doto', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    letter-spacing: 0.05em;
+  }
+  
+  .prose p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+  }
+
+  .prose strong {
+    color: #ff4d00;
+    font-weight: 700;
+  }
+
+  .prose ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .prose li {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .prose li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: #ff4d00;
+    font-family: 'Doto', sans-serif;
+    font-weight: bold;
+  }
+
+  .prose a {
+    color: #ff4d00;
+    text-decoration: none;
+    border-bottom: 1px solid #ff4d00;
+  }
+
+  .prose a:hover {
+    background: #ff4d00;
+    color: black;
+  }
+</style>
