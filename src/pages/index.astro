@@ -8,40 +8,40 @@ const posts = await getCollection('posts');
 <Layout title="chiamamial//note - Feed Industriale">
 
   <!-- Hero Section -->
-  <section class="mb-24 relative border-b border-[#333] pb-12">
-    <div class="absolute top-0 right-0 text-[#333] text-9xl font-dot font-bold opacity-10 pointer-events-none select-none -z-10">
+  <section class="mb-12 md:mb-24 relative border-b border-[#333] pb-8 md:pb-12 pt-8 md:pt-0">
+    <div class="absolute top-0 right-0 text-[#333] text-6xl md:text-9xl font-dot font-bold opacity-10 pointer-events-none select-none -z-10">
       001
     </div>
     
-    <div class="inline-block border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-xs font-bold uppercase mb-6 tracking-widest font-dot">
+    <div class="inline-block border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-[10px] md:text-xs font-bold uppercase mb-4 md:mb-6 tracking-widest font-dot">
       Diario di Bordo: Attivo
     </div>
 
-    <h1 class="text-5xl md:text-8xl font-dot font-bold uppercase leading-none mb-6 text-white tracking-wide">
+    <h1 class="text-4xl sm:text-6xl md:text-8xl font-dot font-bold uppercase leading-none mb-4 md:mb-6 text-white tracking-wide break-words">
       Appunti <br/>
       <span class="text-transparent stroke-text hover:text-[#ff4d00] transition-colors duration-500">Digitali</span> <br/>
       & Tech
     </h1>
     
-    <p class="text-gray-400 max-w-xl text-sm md:text-base leading-relaxed border-l-2 border-[#ff4d00] pl-6 py-2 mb-8 font-mono">
+    <p class="text-gray-400 max-w-xl text-xs md:text-base leading-relaxed border-l-2 border-[#ff4d00] pl-4 md:pl-6 py-2 mb-6 md:mb-8 font-mono">
       // Non sono un giornalista. Non sono un guru.
-      <br class="hidden md:block"/>
+      <br class="hidden sm:block"/>
       // Questo è solo il mio spazio personale dove raccolgo ciò che mi colpisce: tecnologia, innovazione e cultura digitale.
     </p>
   </section>
 
   <!-- Content Grid -->
   <section>
-    <div class="flex items-end justify-between mb-12 border-b border-[#333] pb-4">
-      <h2 class="text-3xl font-dot uppercase text-white tracking-widest">
-        <span class="text-[#ff4d00] mr-2">/</span> Log_Trasmissioni
+    <div class="flex items-end justify-between mb-8 md:mb-12 border-b border-[#333] pb-4">
+      <h2 class="text-xl md:text-3xl font-dot uppercase text-white tracking-widest">
+        <span class="text-[#ff4d00] mr-2">/</span> Log
       </h2>
-      <a href="/archive" class="text-xs font-mono text-gray-500 hover:text-[#ff4d00] uppercase tracking-widest">
-        [ Vedi_Tutti_i_Dati ]
+      <a href="/archive" class="text-[10px] md:text-xs font-mono text-gray-500 hover:text-[#ff4d00] uppercase tracking-widest">
+        [ Vedi_Tutti ]
       </a>
     </div>
 
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
       {posts.map(post => (
         <article class="group relative bg-[#0a0a0a] border border-[#333] hover:border-[#ff4d00] transition-colors duration-300">
           <a href={`/posts/${post.slug}`} class="block h-full p-6 flex flex-col h-full">

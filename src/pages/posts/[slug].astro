@@ -27,24 +27,24 @@ const { Content } = await post.render();
     </div>
 
     <!-- Header -->
-    <header class="p-8 md:p-12 border-b border-[#333]">
-      <div class="flex flex-wrap gap-2 mb-6">
+    <header class="p-6 md:p-12 border-b border-[#333]">
+      <div class="flex flex-wrap gap-2 mb-4 md:mb-6">
         {post.data.tags.map(tag => (
-          <span class="border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-xs font-bold uppercase tracking-wider font-dot">
+          <span class="border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider font-dot">
             {tag}
           </span>
         ))}
       </div>
-      <h1 class="text-4xl md:text-6xl font-dot font-bold text-white uppercase leading-tight tracking-wide mb-8">
+      <h1 class="text-3xl sm:text-4xl md:text-6xl font-dot font-bold text-white uppercase leading-tight tracking-wide mb-6 md:mb-8 break-words">
         {post.data.title}
       </h1>
-      <p class="text-xl text-gray-400 font-mono leading-relaxed max-w-2xl border-l-2 border-[#ff4d00] pl-6">
+      <p class="text-base md:text-xl text-gray-400 font-mono leading-relaxed max-w-2xl border-l-2 border-[#ff4d00] pl-4 md:pl-6">
         {post.data.description}
       </p>
     </header>
 
     <!-- Content Body -->
-    <div class="p-8 md:p-12 prose prose-invert prose-lg max-w-none font-mono text-gray-300">
+    <div class="p-6 md:p-12 prose prose-invert prose-base md:prose-lg max-w-none font-mono text-gray-300">
       <Content />
     </div>
 
