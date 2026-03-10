@@ -2,33 +2,47 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import PostCover from '../components/PostCover.astro';
+import HeroBackground from '../components/HeroBackground.astro';
+import { getPostDate } from '../utils/git';
 
 const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = getPostDate(a.id).getTime();
+  const dateB = getPostDate(b.id).getTime();
+  return dateB - dateA;
+});
+
+console.log('Posts found:', sortedPosts.map(p => ({ slug: p.slug, id: p.id })));
 ---
 
 <Layout title="chiamamial//note - Feed Industriale">
 
   <!-- Hero Section -->
-  <section class="mb-12 md:mb-24 relative border-b border-[#333] pb-8 md:pb-12 pt-8 md:pt-0">
-    <div class="hero-number absolute top-0 right-0 text-[#333] text-6xl md:text-9xl font-dot font-bold opacity-10 pointer-events-none select-none -z-10">
+  <section class="mb-12 md:mb-24 relative border-b border-[#333] pb-8 md:pb-12 pt-8 md:pt-0 overflow-hidden min-h-[60vh] flex flex-col justify-center">
+    
+    <HeroBackground />
+
+    <div class="hero-number absolute top-8 right-8 text-white text-6xl md:text-9xl font-dot font-bold opacity-20 pointer-events-none select-none z-10 mix-blend-overlay">
       001
     </div>
     
-    <div class="hero-badge inline-block status-badge">
-      Diario di Bordo: Attivo
-    </div>
+    <div class="relative z-30">
+      <div class="hero-badge inline-block status-badge bg-black/50 backdrop-blur-sm">
+        Diario di Bordo: Attivo
+      </div>
 
-    <h1 class="hero-title text-4xl sm:text-6xl md:text-8xl font-bitcount font-bold uppercase leading-none mb-4 md:mb-6 text-white tracking-wide break-words">
-      Appunti <br/>
-      <span class="text-transparent stroke-text hover:text-[#ff4d00] transition-colors duration-500">Digitali</span> <br/>
-      & Tech
-    </h1>
-    
-    <p class="hero-desc text-gray-400 max-w-xl text-xs md:text-base leading-relaxed border-l-2 border-[#ff4d00] pl-4 md:pl-6 py-2 mb-6 md:mb-8 font-mono">
-      // Non sono un giornalista. Non sono un guru.
-      <br class="hidden sm:block"/>
-      // Questo è solo il mio spazio personale dove raccolgo ciò che mi colpisce: tecnologia, innovazione e cultura digitale.
-    </p>
+      <h1 class="hero-title text-4xl sm:text-6xl md:text-8xl font-bitcount font-bold uppercase leading-none mb-4 md:mb-6 text-white tracking-wide break-words drop-shadow-lg">
+        Appunti <br/>
+        <span class="text-transparent stroke-text hover:text-[#ff4d00] transition-colors duration-500">Digitali</span> <br/>
+        & Tech
+      </h1>
+      
+      <p class="hero-desc text-gray-300 max-w-xl text-xs md:text-base leading-relaxed border-l-2 border-[#ff4d00] pl-4 md:pl-6 py-2 mb-6 md:mb-8 font-mono bg-black/30 backdrop-blur-sm p-4 rounded-r-lg">
+        // Non sono un giornalista. Non sono un guru.
+        <br class="hidden sm:block"/>
+        // Questo è solo il mio spazio personale dove raccolgo ciò che mi colpisce: tecnologia, innovazione e cultura digitale.
+      </p>
+    </div>
   </section>
 
   <!-- Content Grid -->
@@ -43,7 +57,9 @@ const posts = await getCollection('posts');
     </div>
 
     <div class="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map(post => (
+      {sortedPosts.map(post => {
+        const postDate = getPostDate(post.id);
+        return (
         <article class="card-article group flex flex-col h-full">
           <a href={`/posts/${post.slug}`} class="flex flex-col h-full">
             <!-- Cover Image Area -->
@@ -56,7 +72,7 @@ const posts = await getCollection('posts');
                 <span class="tag-outline">
                   {post.data.tags[0] || 'NULL'}
                 </span>
-                <span>{post.data.pubDate.toLocaleDateString('it-IT')}</span>
+                <span>{postDate.toLocaleDateString('it-IT')}</span>
               </div>
               
               <h3 class="text-2xl font-bitcount font-bold text-white mb-4 group-hover:text-[#ff4d00] transition-colors uppercase leading-tight tracking-wide">
@@ -77,7 +93,7 @@ const posts = await getCollection('posts');
             <div class="card-corner-bl"></div>
           </a>
         </article>
-      ))}
+      )})}
       
       <!-- Placeholder Card -->
       <article class="card-placeholder group">
