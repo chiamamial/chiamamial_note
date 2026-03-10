@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'BitcountPropSingle';
+  src: url('/fonts/BitcountPropSingle-Regular.woff2') format('woff2'),
+       url('/fonts/BitcountPropSingle-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-dot: "Doto", sans-serif;
+  --font-bitcount: "BitcountPropSingle", monospace;
+  --font-mono: "Space Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-[#050505] text-[#e0e0e0] font-mono min-h-screen flex flex-col selection:bg-[#ff4d00] selection:text-black;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050505; 
+    border-left: 1px solid #333;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333; 
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ff4d00; 
+  }
+}
+
+@utility font-dot {
+  font-family: var(--font-dot);
+  font-variation-settings: 'ROND' 0;
+  font-weight: 500;
+}
+
+@utility font-bitcount {
+  font-family: var(--font-bitcount);
+  font-weight: normal;
+}
+
+@utility font-mono {
+  font-family: var(--font-mono);
+}
+
+@utility stroke-text {
+  -webkit-text-stroke: 1px #fff;
+  &:hover {
+    -webkit-text-stroke: 1px #ff4d00;
+  }
+}

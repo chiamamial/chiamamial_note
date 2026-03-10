@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import PostCover from '../../components/PostCover.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -27,20 +28,27 @@ const { Content } = await post.render();
     </div>
 
     <!-- Header -->
-    <header class="p-6 md:p-12 border-b border-[#333]">
-      <div class="flex flex-wrap gap-2 mb-4 md:mb-6">
-        {post.data.tags.map(tag => (
-          <span class="border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider font-dot">
-            {tag}
-          </span>
-        ))}
+    <header class="border-b border-[#333]">
+      <!-- Cover Image -->
+      <div class="h-64 w-full relative border-b border-[#333] overflow-hidden">
+        <PostCover seed={post.slug} />
       </div>
-      <h1 class="text-3xl sm:text-4xl md:text-6xl font-dot font-bold text-white uppercase leading-tight tracking-wide mb-6 md:mb-8 break-words">
-        {post.data.title}
-      </h1>
-      <p class="text-base md:text-xl text-gray-400 font-mono leading-relaxed max-w-2xl border-l-2 border-[#ff4d00] pl-4 md:pl-6">
-        {post.data.description}
-      </p>
+
+      <div class="p-6 md:p-12">
+        <div class="flex flex-wrap gap-2 mb-4 md:mb-6">
+          {post.data.tags.map(tag => (
+            <span class="tag-solid">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-6xl font-bitcount font-bold text-white uppercase leading-tight tracking-wide mb-6 md:mb-8 break-words">
+          {post.data.title}
+        </h1>
+        <p class="text-base md:text-xl text-gray-400 font-mono leading-relaxed max-w-2xl border-l-2 border-[#ff4d00] pl-4 md:pl-6">
+          {post.data.description}
+        </p>
+      </div>
     </header>
 
     <!-- Content Body -->
@@ -53,7 +61,7 @@ const { Content } = await post.render();
       <p class="text-xs font-mono text-gray-500 uppercase mb-4">
         // Fine Trasmissione
       </p>
-      <a href="/" class="inline-block border border-[#333] hover:border-[#ff4d00] text-gray-400 hover:text-[#ff4d00] px-8 py-3 font-bold uppercase tracking-wider transition-colors font-dot">
+      <a href="/" class="btn-outline">
         Torna all'Archivio
       </a>
     </div>
@@ -64,7 +72,7 @@ const { Content } = await post.render();
 <style is:global>
   /* Custom Prose Styles for Markdown Content */
   .prose h1, .prose h2, .prose h3 {
-    font-family: 'Doto', sans-serif;
+    font-family: 'BitcountPropSingle', monospace;
     font-weight: 700;
     text-transform: uppercase;
     color: white;
@@ -99,7 +107,7 @@ const { Content } = await post.render();
     position: absolute;
     left: 0;
     color: #ff4d00;
-    font-family: 'Doto', sans-serif;
+    font-family: 'BitcountPropSingle', monospace;
     font-weight: bold;
   }
 

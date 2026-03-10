@@ -1,0 +1,66 @@
+---
+interface Props {
+  seed: string;
+  className?: string;
+}
+
+const { seed, className = "" } = Astro.props;
+
+// Funzione pseudo-random semplice basata sulla stringa seed
+function seededRandom(str: string) {
+  let h = 1779033703 ^ str.length;
+  for (let i = 0; i < str.length; i++) {
+    h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+    h = h << 13 | h >>> 19;
+  }
+  return function() {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    return (h >>> 0) / 4294967296;
+  }
+}
+
+const rng = seededRandom(seed);
+
+// Generiamo posizioni casuali per le "blob" di colore
+const orbs = Array.from({ length: 3 }, () => ({
+  x: Math.floor(rng() * 100),
+  y: Math.floor(rng() * 100),
+  scale: 0.5 + rng() * 1, // Tra 0.5 e 1.5
+  opacity: 0.3 + rng() * 0.4,
+  color: rng() > 0.5 ? '#ff4d00' : '#333333' // Arancio o Grigio
+}));
+
+// Aggiungiamo sempre almeno un orb arancione per coerenza
+if (!orbs.some(o => o.color === '#ff4d00')) {
+  orbs[0].color = '#ff4d00';
+}
+---
+
+<div class={`relative w-full h-full overflow-hidden bg-[#050505] ${className}`}>
+  <!-- Grid Texture Overlay -->
+  <div class="absolute inset-0 z-10 opacity-20" 
+       style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 20px 20px;">
+  </div>
+
+  <!-- Gradient Blobs -->
+  {orbs.map((orb) => (
+    <div 
+      class="absolute rounded-full blur-[80px] mix-blend-screen"
+      style={{
+        left: `${orb.x}%`,
+        top: `${orb.y}%`,
+        width: '60%',
+        height: '60%',
+        transform: `translate(-50%, -50%) scale(${orb.scale})`,
+        backgroundColor: orb.color,
+        opacity: orb.opacity
+      }}
+    />
+  ))}
+  
+  <!-- Noise Overlay per effetto "raw" -->
+  <div class="absolute inset-0 z-20 opacity-10 pointer-events-none mix-blend-overlay"
+       style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%221%22/%3E%3C/svg%3E');">
+  </div>
+</div>

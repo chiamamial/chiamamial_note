@@ -1,1 +1,5 @@
-@import "tailwindcss";
+@import "./base.css";
+@import "./components/buttons.css";
+@import "./components/cards.css";
+@import "./components/tags.css";
+@import "./components/forms.css";

@@ -1,165 +1,92 @@
-# AGENTS.md
+1) Obiettivo del Progetto
+Sito statico o semi-statico ad alte prestazioni.
 
-Guida operativa per lavorare su questo repository.
+Stabilità Visuale: Priorità assoluta alla coerenza tra breakpoint.
 
-Questo documento definisce regole non negoziabili per mantenere
-stabilità, coerenza e qualità nel tempo.
+Vibe Coding: Interfaccia viva con microinterazioni fluide.
 
-------------------------------------------------------------------------
+Qualità CSS: Naming BEM rigoroso e utilizzo di Design Tokens.
 
-# 1) Obiettivo del progetto
+SEO & A11y: Accessibilità e indicizzazione native.
 
-Sito statico o semi-statico con priorità:
+2) Stack e Confini
+Framework: Definito nel repository (es. Astro / Next.js / Vite).
 
-1.  Stabilità visuale desktop/mobile
-2.  Coerenza architetturale CSS e naming
-3.  Accessibilità base corretta
-4.  SEO tecnica minima funzionante
-5.  Performance buona, non perfetta
+Styling: SCSS o CSS Modules. Obbligatorio: Divisione dei file per componente.
 
-Non è una web app complessa. Non introdurre complessità non necessaria.
+Mobile-First: Lo stile base è per 320px+. Le Media Queries aggiungono complessità.
 
-------------------------------------------------------------------------
+Dipendenze: Nessuna libreria UI esterna (es. Bootstrap/Tailwind) se esiste già un sistema custom.
 
-# 2) Principi fondamentali
+3) Architettura CSS & Naming (BEM)
+Tutto lo stile deve essere isolato e prevedibile.
 
--   Modifiche piccole e mirate.
--   Nessun refactor ampio non richiesto.
--   Nessuna dipendenza npm senza motivo forte.
--   Se una modifica rompe qualcosa, non si merge.
--   Se qualcosa è ambiguo, si privilegia semplicità e stabilità.
+3.1 Convenzione BEM Strict
+Block: .c-card (prefisso c- per component).
 
-------------------------------------------------------------------------
+Element: .c-card__title (doppio underscore).
 
-# 3) Stack e confini
+Modifier: .c-card--featured (doppio trattino).
 
-## Framework
+State: .is-active, .has-scroll.
 
-Definito nel progetto (Astro / Next / altro).
+3.2 Design Tokens
+Vietati valori hardcoded. Usa esclusivamente variabili CSS semantiche.
 
-## Output
+Colori: --color-bg, --color-text-main, --color-primary.
 
--   Preferibilmente statico.
--   JS solo dove necessario (menu, slider, sync layout, ecc.).
+Spacing: Sistema a base 4px (es. --space-m, --space-xl).
 
-## Dipendenze
+Typography: --font-size-base, --font-weight-bold.
 
--   Non aggiungere librerie UI pesanti.
--   Non introdurre framework CSS se già esiste sistema custom.
--   Ogni nuova dipendenza deve avere motivazione concreta.
+4) Responsive & Breakpoints
+Approccio Mobile-First obbligatorio.
 
-------------------------------------------------------------------------
+Mobile: Default
 
-# 4) Struttura repository
+Tablet: @media (min-width: 768px)
 
-Struttura consigliata:
+Desktop: @media (min-width: 1024px)
 
-src/ pages/ components/ layouts/ styles/ content/ o data/ public/
+Wide: @media (min-width: 1440px)
 
-Regola: ogni file deve avere ownership chiara.
+5) Microinterazioni & UX
+L'interfaccia deve reagire all'utente in modo fluido.
 
-------------------------------------------------------------------------
+Transitions: Ogni hover/active deve avere una transizione (es: var(--anim-smooth)).
 
-# 5) Design System e CSS
+Feedback: Usare transform: scale() o translateY() per dare profondità ai click.
 
-## 5.1 Design Tokens
+Hover/Focus: Stato :focus-visible sempre garantito per l'accessibilità.
 
-Usare token semantici, non meccanici.
+6) Regole di Sviluppo (Boundaries)
+No Global CSS: Non stilizzare tag nudi fuori dal file base/reset.
 
-Esempi corretti: - --space-section - --type-title-lg - --color-bg -
---radius-card
+No !important: La specificità deve essere risolta tramite la struttura BEM.
 
-Evitare token legati a valori rigidi come --space-14px.
+JS Difensivo: Selezione elementi con controllo esistenza (if (el) ...).
 
-------------------------------------------------------------------------
+Separazione: Logica JS separata dallo stile. Lo stile non deve dipendere da calcoli JS se risolvibile con CSS (es. Flex/Grid).
 
-## 5.2 CSS a Layer
+7) SEO & Accessibilità (A11y)
+Semantica: Usare <main>, <section>, <article>, <nav> correttamente.
 
-Ordine obbligatorio: 1. base 2. components 3. utilities 4. pages
+Immagini: alt descrittivo o alt="" se decorativo. Lazy loading nativo per immagini "below the fold".
 
-Regole: - Non usare !important - Non usare selettori globali
-aggressivi - Controllare sempre layer, specificità e ordine import prima
-di forzare soluzioni
+Icone: Sempre con aria-hidden="true" o aria-label se d'azione.
 
-------------------------------------------------------------------------
+8) Workflow Operativo
+Prima di ogni release/merge:
 
-## 5.3 Naming
+Build Check: npm run build (deve passare senza errori).
 
-Convenzione BEM-like:
+Cross-Device: Verifica Navbar e CTA su Mobile (375px) e Desktop (1440px).
 
-block\_\_element--modifier
+Linting: Il codice deve seguire le regole di formattazione del progetto.
 
-Regole: - No abbreviazioni ambigue. - Preferire modifier espliciti nel
-markup. - Evitare override annidati inutili.
+Performance: Controllo console per errori o asset pesanti non ottimizzati.
 
-------------------------------------------------------------------------
+9) Filosofia
+Il codice deve essere leggibile, prevedibile e stabile.
 
-# 6) Regole UI condivise
-
-Ogni progetto deve definire comportamenti UI critici che non devono
-rompersi: - Navbar / hamburger - CTA mobile/desktop - Sezioni con layout
-sincronizzato - Sticky header
-
-Se una modifica li tocca, test manuale obbligatorio.
-
-------------------------------------------------------------------------
-
-# 7) JavaScript
-
--   Niente script globali inutili.
--   Selezione elementi difensiva.
--   Niente duplicazione di logica.
--   Utility riusabili quando necessario.
-
-------------------------------------------------------------------------
-
-# 8) SEO tecnica
-
-Checklist minima: - Dominio canonico https corretto - Tag canonical
-coerente - Meta OG coerenti - JSON-LD valido - Sitemap aggiornata -
-Nessun link rotto
-
-------------------------------------------------------------------------
-
-# 9) Accessibilità
-
--   aria-label su icone
--   Focus visibile
--   Elementi cliccabili navigabili da tastiera
--   alt="" per immagini decorative
--   alt descrittivo per immagini informative
-
-------------------------------------------------------------------------
-
-# 10) Performance
-
--   Lazy loading immagini sotto la fold
--   Asset ottimizzati
--   Evitare JS eccessivo
--   Non inseguire 100/100 Lighthouse a scapito del codice
-
-------------------------------------------------------------------------
-
-# 11) Workflow operativo
-
-Prima di chiudere una task: 1. npm run build 2. Controllo desktop 3.
-Controllo mobile 4. Verifica navbar, CTA, sezioni critiche 5. Nessun
-errore console
-
-------------------------------------------------------------------------
-
-# 12) Quality Gates
-
-Devono passare: - Build - Lint
-
-Se presenti: - Test e2e - Visual regression - A11y check
-
-Se CI fallisce, non si merge.
-
-------------------------------------------------------------------------
-
-# 13) Filosofia
-
-Il repository deve rimanere: - leggibile - prevedibile - stabile
-
-Se una soluzione è fragile, non è accettabile.
+Se una soluzione richiede un "hack" o una forzatura della specificità CSS, la struttura del componente va rivista.

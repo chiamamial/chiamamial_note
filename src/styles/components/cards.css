@@ -1,0 +1,23 @@
+@layer components {
+  .card-article {
+    @apply relative bg-[#0a0a0a] border border-[#333] hover:border-[#ff4d00] transition-colors duration-300;
+  }
+
+  .card-placeholder {
+    @apply relative bg-[#0a0a0a] border border-[#333] opacity-40 hover:opacity-100 transition-opacity duration-300 min-h-[300px] flex items-center justify-center;
+  }
+
+  .card-corner-tr {
+    @apply absolute top-0 right-0 w-2 h-2 border-t border-r border-[#333] transition-colors;
+    &:where(.group:hover *) {
+      @apply border-[#ff4d00];
+    }
+  }
+
+  .card-corner-bl {
+    @apply absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[#333] transition-colors;
+    &:where(.group:hover *) {
+      @apply border-[#ff4d00];
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@layer components {
+  .btn-primary {
+    @apply bg-[#e0e0e0] text-black px-8 py-4 font-bold uppercase tracking-wider hover:bg-[#ff4d00] hover:text-black transition-colors border border-[#e0e0e0] hover:border-[#ff4d00] font-dot;
+  }
+
+  .btn-outline {
+    @apply border border-[#333] hover:border-[#ff4d00] text-gray-400 hover:text-[#ff4d00] px-8 py-3 font-bold uppercase tracking-wider transition-colors font-dot inline-block;
+  }
+
+  .btn-text {
+    @apply text-[#ff4d00] text-xs font-bold uppercase tracking-widest flex items-center gap-2 opacity-0 -translate-x-4 transition-all duration-300 font-dot;
+    &:where(.group:hover *) {
+      @apply opacity-100 translate-x-0;
+    }
+  }
+}

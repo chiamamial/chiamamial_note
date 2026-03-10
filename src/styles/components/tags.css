@@ -1,0 +1,16 @@
+@layer components {
+  .tag-outline {
+    @apply border border-[#333] px-2 py-1 transition-colors font-dot;
+    &:where(.group:hover *) {
+      @apply border-[#ff4d00] text-[#ff4d00];
+    }
+  }
+
+  .tag-solid {
+    @apply border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider font-dot;
+  }
+
+  .status-badge {
+    @apply inline-block border border-[#ff4d00] text-[#ff4d00] px-2 py-1 text-[10px] md:text-xs font-bold uppercase mb-4 md:mb-6 tracking-widest font-dot;
+  }
+}

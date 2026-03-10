@@ -33,7 +33,7 @@ const { title } = Astro.props;
           <span class="hidden sm:inline">chiamamial//note</span>
           <span class="sm:hidden">c//n</span>
         </a>
-        <nav class="flex gap-4 sm:gap-8 text-xs font-bold uppercase tracking-widest">
+        <nav class="flex items-center gap-4 sm:gap-8 text-xs font-bold uppercase tracking-widest">
           <a href="/" class="hover:text-[#ff4d00] transition-colors">[ Home ]</a>
           <a href="https://chiamamial.com" target="_blank" rel="noopener noreferrer" class="hover:text-[#ff4d00] transition-colors">[ About ]</a>
         </nav>
@@ -42,7 +42,7 @@ const { title } = Astro.props;
 
     <main class="flex-grow w-full max-w-6xl mx-auto px-4 md:px-8 py-12 relative">
       <!-- Background Grid Lines (Decorative) -->
-      <div class="absolute inset-0 pointer-events-none border-l border-r border-[#1a1a1a] mx-4 md:mx-8"></div>
+      <div class="grid-lines absolute inset-0 pointer-events-none border-l border-r border-[#1a1a1a] mx-4 md:mx-8"></div>
       
       <div class="relative z-10">
         <slot />
@@ -64,6 +64,90 @@ const { title } = Astro.props;
         </div>
       </div>
     </footer>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Hero Animations
+      const heroTimeline = gsap.timeline();
+      
+      heroTimeline.from(".hero-number", {
+        opacity: 0,
+        y: -50,
+        duration: 1.5,
+        ease: "power4.out"
+      })
+      .from(".hero-badge", {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.8,
+        ease: "back.out(1.7)"
+      }, "-=1")
+      .from(".hero-title", {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        stagger: 0.2
+      }, "-=0.5")
+      .from(".hero-desc", {
+        x: -50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out"
+      }, "-=0.8");
+
+      // Card Animations
+      const cards = document.querySelectorAll(".card-article");
+      
+      cards.forEach((card, index) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          },
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          delay: index * 0.1,
+          ease: "power2.out"
+        });
+
+        // Micro-interaction on hover
+        card.addEventListener("mouseenter", () => {
+          gsap.to(card, {
+            y: -5,
+            scale: 1.01,
+            borderColor: "#ff4d00",
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(card, {
+            y: 0,
+            scale: 1,
+            borderColor: "#333",
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+      });
+
+      // Grid Lines Animation
+      gsap.from(".grid-lines", {
+        scaleY: 0,
+        transformOrigin: "top",
+        duration: 2,
+        ease: "power4.inOut"
+      });
+
+    </script>
 
   </body>
 </html>

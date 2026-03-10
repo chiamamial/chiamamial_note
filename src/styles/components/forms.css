@@ -1,0 +1,5 @@
+@layer components {
+  .input-terminal {
+    @apply bg-black border border-[#333] text-white px-6 py-4 w-full sm:w-80 focus:outline-none focus:border-[#ff4d00] font-dot text-sm uppercase placeholder-gray-700 transition-colors;
+  }
+}
